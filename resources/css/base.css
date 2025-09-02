@@ -1,0 +1,178 @@
+/* ===== БАЗОВЫЕ СТИЛИ И ОБЩИЕ КОМПОНЕНТЫ ===== */
+
+/* Общие стили для body */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.site-main {
+    flex: 1;
+}
+
+/* Общие классы кнопок */
+.btn-primary {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2980b9, #1f6391);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-secondary:hover {
+    background: #545b62;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+    text-decoration: none;
+    color: white;
+}
+
+/* Общие анимации */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tagAppear {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+/* Общие классы для сообщений */
+.message-card {
+    text-align: center;
+    padding: 40px 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+.message-card h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+
+.message-card p {
+    color: #7f8c8d;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.error-message {
+    border-left: 4px solid #e74c3c;
+}
+
+.error-message h3 {
+    color: #e74c3c;
+}
+
+/* Общие классы для пагинации */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.pagination-btn {
+    padding: 10px 16px;
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.pagination-btn:hover {
+    background: #3498db;
+    color: white;
+    border-color: #3498db;
+    text-decoration: none;
+}
+
+.pagination-current {
+    padding: 10px 16px;
+    background: #3498db;
+    color: white;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+

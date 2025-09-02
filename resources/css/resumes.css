@@ -1,0 +1,315 @@
+/* ===== СТИЛИ ДЛЯ СТРАНИЦЫ РЕЗЮМЕ ===== */
+
+.resumes-page {
+    min-height: 100vh;
+    padding: 40px 0;
+}
+
+.resumes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Заголовок страницы резюме */
+.resumes-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.resumes-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #2c3e50, #27ae60);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.resumes-subtitle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin: 0;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Сетка резюме */
+.resumes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+.resume-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+}
+
+.resume-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Заголовок резюме */
+.resume-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 15px;
+}
+
+.resume-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin: 0;
+    flex: 1;
+    line-height: 1.3;
+}
+
+.resume-status {
+    flex-shrink: 0;
+}
+
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-published {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+}
+
+.status-blocked {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+}
+
+.status-not_published {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+}
+
+.status-on_moderation {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+/* Информация о резюме */
+.resume-info {
+    margin-bottom: 20px;
+}
+
+.resume-detail {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #5d6d7e;
+}
+
+.resume-detail.salary {
+    font-weight: 600;
+    color: #27ae60;
+}
+
+.detail-icon {
+    font-size: 16px;
+    width: 20px;
+    flex-shrink: 0;
+}
+
+/* Дата обновления */
+.resume-updated {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #95a5a6;
+    font-style: italic;
+}
+
+/* Действия с резюме */
+.resume-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.resume-btn {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+    flex: 1;
+    min-width: 120px;
+}
+
+.resume-btn.primary {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+}
+
+.resume-btn.primary:hover {
+    background: linear-gradient(135deg, #2980b9, #1f6391);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+
+.resume-btn.secondary {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    color: white;
+}
+
+.resume-btn.secondary:hover {
+    background: linear-gradient(135deg, #229954, #1e8449);
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+}
+
+/* Статистика резюме */
+.resume-stats {
+    border-top: 1px solid #ecf0f1;
+    padding-top: 15px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #7f8c8d;
+    font-size: 13px;
+}
+
+.stat-icon {
+    font-size: 14px;
+}
+
+/* Действия со всеми резюме */
+.resumes-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
+/* Состояния без резюме, ошибки и неавторизованности */
+.no-resumes, .resumes-error, .resumes-unauthorized {
+    text-align: center;
+    padding: 60px 40px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+.no-resumes-icon, .error-icon, .unauthorized-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.no-resumes h2, .resumes-error h2, .resumes-unauthorized h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.no-resumes h2 {
+    color: #3498db;
+}
+
+.resumes-error h2 {
+    color: #e74c3c;
+}
+
+.resumes-unauthorized h2 {
+    color: #f39c12;
+}
+
+.no-resumes p, .resumes-error p, .resumes-unauthorized p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.no-resumes-actions, .error-actions, .unauthorized-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Адаптивность для страницы резюме */
+@media (max-width: 768px) {
+    .resumes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .resumes-title {
+        font-size: 2rem;
+    }
+
+    .resume-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .resume-actions {
+        flex-direction: column;
+    }
+
+    .resume-btn {
+        flex: none;
+        width: 100%;
+    }
+
+    .resumes-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .no-resumes-actions, .error-actions, .unauthorized-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .resumes-container {
+        padding: 0 15px;
+    }
+
+    .resume-card {
+        padding: 25px 20px;
+    }
+
+    .no-resumes, .resumes-error, .resumes-unauthorized {
+        padding: 40px 20px;
+    }
+}
+
+

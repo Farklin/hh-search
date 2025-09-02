@@ -1,0 +1,16 @@
+@import 'tailwindcss';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/* Импорт всех модульных CSS файлов */
+@import './base.css';
+@import './header-footer.css';
+@import './home.css';
+@import './vacancies.css';
+@import './profile.css';
+@import './resumes.css';
+@import './negotiations.css';
+
+

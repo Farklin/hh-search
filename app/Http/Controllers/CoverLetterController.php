@@ -16,7 +16,7 @@ class CoverLetterController extends Controller
     {
         $headHunterService = new HeadHunterService();
         $userHhId = $headHunterService->getCurrentUserId();
-        
+
         $coverLetters = CoverLetter::forUser($userHhId)->get();
         return view('pages.cover-letters', ['coverLetters' => $coverLetters]);
     }
@@ -62,19 +62,19 @@ class CoverLetterController extends Controller
     {
         $headHunterService = new HeadHunterService();
         $userHhId = $headHunterService->getCurrentUserId();
-        
+
         $id = $request->input('id');
-        
+
         // Находим письмо, принадлежащее текущему пользователю
         $coverLetter = CoverLetter::forUser($userHhId)->find($id);
-        
+
         if (!$coverLetter) {
             return response()->json([
                 'success' => false,
                 'message' => 'Письмо не найдено или не принадлежит текущему пользователю'
             ]);
         }
-        
+
         $coverLetter->delete();
 
         return response()->json(['success' => true]);

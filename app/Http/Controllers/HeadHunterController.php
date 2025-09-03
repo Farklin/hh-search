@@ -448,11 +448,11 @@ class HeadHunterController extends Controller
         try {
             $headHunterService = new HeadHunterService();
             $userHhId = $headHunterService->getCurrentUserId();
-            
+
             if (!$userHhId) {
                 return [];
             }
-            
+
             $coverLetters = \App\Models\CoverLetter::forUser($userHhId)->get();
             return $coverLetters->toArray();
         } catch (\Exception $e) {

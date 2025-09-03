@@ -300,7 +300,7 @@ class HeadHunterService
         $response = $this->client->get('me');
         return json_decode($response->getBody()->getContents(), true);
     }
-    
+
     /**
      * Получить ID текущего пользователя HeadHunter
      */

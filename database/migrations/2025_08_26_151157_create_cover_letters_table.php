@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('content');
             $table->timestamps();
-            
+
             $table->index('user_hh_id'); // Индекс для быстрого поиска по пользователю
         });
     }

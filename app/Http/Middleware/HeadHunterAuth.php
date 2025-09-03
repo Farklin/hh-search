@@ -24,33 +24,33 @@ class HeadHunterAuth
                     'message' => 'Необходимо авторизоваться через HeadHunter'
                 ], 401);
             }
-            
+
             return redirect()->route('home')->with('error', 'Необходимо авторизоваться через HeadHunter');
         }
-        
+
         // Дополнительная проверка валидности токена через API
         try {
             $headHunterService = new HeadHunterService();
             $userHhId = $headHunterService->getCurrentUserId();
-            
+
             if (!$userHhId) {
                 // Токен недействителен, очищаем сессию
                 session()->forget(['HH_TOKEN', 'HH_CODE']);
-                
+
                 if ($request->expectsJson()) {
                     return response()->json([
                         'success' => false,
                         'message' => 'Токен авторизации недействителен. Необходимо повторно авторизоваться'
                     ], 401);
                 }
-                
+
                 return redirect()->route('home')->with('error', 'Токен авторизации недействителен. Необходимо повторно авторизоваться');
             }
         } catch (\Exception $e) {
             // В случае ошибки API пропускаем запрос, но логируем проблему
             \Illuminate\Support\Facades\Log::warning('HeadHunter API error in middleware: ' . $e->getMessage());
         }
-        
+
         return $next($request);
     }
 }

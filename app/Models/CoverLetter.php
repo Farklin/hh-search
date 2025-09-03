@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class CoverLetter extends Model
 {
     protected $fillable = ['user_hh_id', 'title', 'content'];
-    
+
     /**
      * Получить сопроводительные письма для конкретного пользователя HH
      */

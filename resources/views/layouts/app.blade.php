@@ -75,7 +75,7 @@
                     @else
                         <div class="user-menu">
                             <span class="user-status">✅ Авторизован</span>
-                            <a href="{{ route('home') }}" class="auth-btn secondary" onclick="clearSession()">
+                            <a href="{{ route('hh-out') }}" class="auth-btn secondary">
                                 🚪 Выход
                             </a>
                         </div>

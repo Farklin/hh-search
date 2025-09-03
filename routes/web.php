@@ -11,6 +11,7 @@ Route::get('/', function () {
 
 Route::get('/get-code', [HeadHunterController::class, 'getCode'])->name('get-code');
 Route::get('/hh-code', [HeadHunterController::class, 'hhCode']);
+Route::get('/hh-out', [HeadHunterController::class, 'hhOut'])->name('hh-out');
 
 Route::get('/token', [HeadHunterController::class, 'token'])->name('token');
 Route::get('/vacancies', [HeadHunterController::class, 'vacancies']);

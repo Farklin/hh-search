@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
-
+use Illuminate\Support\Facades\Log;
 class HeadHunterService
 {
     protected Client $client;
@@ -41,6 +41,7 @@ class HeadHunterService
             'base_uri' => 'https://hh.ru/',
             'timeout'  => 10.0,
         ]);
+        Log::info("code: " . session('HH_CODE'));
         // Создаем отдельный клиент для получения токена, так как нужен другой базовый URL
         $response = $client->post('oauth/token', [
             'headers' => [

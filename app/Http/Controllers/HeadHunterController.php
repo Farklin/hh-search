@@ -416,7 +416,7 @@ class HeadHunterController extends Controller
     /**
      * Создать задачу автоматического отклика в БД
      */
-    private function createAutoApplyTask(array $data): int
+    private function createAutoApplyTask(array $data): string
     {
         // Пока используем сессию, позже можно заменить на БД
         $taskId = uniqid();

@@ -22,8 +22,19 @@ class HeadHunterController extends Controller
     }
 
     public function hhCode(Request $request){
-        session(['HH_CODE' => $request->code]);
-        sleep(2);
+        if(empty($request->code)){
+            return response()->json([
+                'success' => false,
+                'message' => 'Code is required'
+            ]);
+        }else{
+            session(['HH_CODE' => $request->code]);
+            return response()->json([
+                'success' => true,
+                'message' => 'Code saved'
+            ]);
+        }
+        sleep(3);
         return redirect()->route('token');
     }
 

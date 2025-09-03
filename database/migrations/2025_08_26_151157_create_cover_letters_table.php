@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('cover_letters', function (Blueprint $table) {
             $table->id();
+            $table->string('user_hh_id'); // ID пользователя из HeadHunter API
             $table->string('title');
             $table->text('content');
             $table->timestamps();
+            
+            $table->index('user_hh_id'); // Индекс для быстрого поиска по пользователю
         });
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\CoverLetter;
+use App\Services\HeadHunterService;
 
 class CoverLetterController extends Controller
 {
@@ -13,7 +14,10 @@ class CoverLetterController extends Controller
      */
     public function index()
     {
-        $coverLetters = CoverLetter::all();
+        $headHunterService = new HeadHunterService();
+        $userHhId = $headHunterService->getCurrentUserId();
+        
+        $coverLetters = CoverLetter::forUser($userHhId)->get();
         return view('pages.cover-letters', ['coverLetters' => $coverLetters]);
     }
 
@@ -34,18 +38,20 @@ class CoverLetterController extends Controller
             ]);
         }
 
-        $coverLetters = CoverLetter::all();
+        $headHunterService = new HeadHunterService();
+        $userHhId = $headHunterService->getCurrentUserId();
+
         $newLetter = [
+            'user_hh_id' => $userHhId,
             'title' => $request->input('title'),
             'content' => $request->input('content'),
         ];
 
-        $coverLetters[] = $newLetter;
-        CoverLetter::create($newLetter);
+        $createdLetter = CoverLetter::create($newLetter);
 
         return response()->json([
             'success' => true,
-            'letter' => $newLetter
+            'letter' => $createdLetter
         ]);
     }
 
@@ -54,16 +60,22 @@ class CoverLetterController extends Controller
      */
     public function delete(Request $request)
     {
+        $headHunterService = new HeadHunterService();
+        $userHhId = $headHunterService->getCurrentUserId();
+        
         $id = $request->input('id');
-        $coverLetters = CoverLetter::all();
-
-        $coverLetters = $coverLetters->filter(function($letter) use ($id) {
-            return $letter->id !== $id;
-        });
-
-        $coverLetters->each(function($letter) {
-            $letter->delete();
-        });
+        
+        // Находим письмо, принадлежащее текущему пользователю
+        $coverLetter = CoverLetter::forUser($userHhId)->find($id);
+        
+        if (!$coverLetter) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Письмо не найдено или не принадлежит текущему пользователю'
+            ]);
+        }
+        
+        $coverLetter->delete();
 
         return response()->json(['success' => true]);
     }

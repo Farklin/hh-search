@@ -300,6 +300,20 @@ class HeadHunterService
         $response = $this->client->get('me');
         return json_decode($response->getBody()->getContents(), true);
     }
+    
+    /**
+     * Получить ID текущего пользователя HeadHunter
+     */
+    public function getCurrentUserId(): ?string
+    {
+        try {
+            $me = $this->getMe();
+            return $me['id'] ?? null;
+        } catch (\Exception $e) {
+            Log::error('Failed to get current user ID: ' . $e->getMessage());
+            return null;
+        }
+    }
 
     public function getProfessionalRoles(): array
     {

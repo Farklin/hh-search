@@ -37,7 +37,17 @@ class HeadHunterController extends Controller
         }
 
         session(['HH_CODE' => $request->code]);
-        return redirect()->route('token');
+
+        // Проверяем, что код действительно сохранился
+        $savedCode = session('HH_CODE');
+        Log::info('Code saved to session', [
+            'original_code' => $request->code,
+            'saved_code' => $savedCode,
+            'session_id' => session()->getId(),
+            'session_data' => session()->all()
+        ]);
+
+        return redirect()->route('token', ['code' => $request->code]);
     }
 
 
@@ -144,9 +154,31 @@ class HeadHunterController extends Controller
         return view('pages.me', ['me' => $me]);
     }
 
-    public function token(){
+    public function token(Request $request){
+        // Логируем состояние сессии перед получением токена
+        Log::info('Token method called', [
+            'session_id' => session()->getId(),
+            'hh_code_in_session' => session('HH_CODE'),
+            'code_in_request' => $request->input('code'),
+            'all_session_data' => session()->all(),
+            'request_params' => $request->all()
+        ]);
+
+        // Если код не в сессии, но есть в запросе - используем его
+        $code = session('HH_CODE') ?: $request->input('code');
+        if ($code && !session('HH_CODE')) {
+            session(['HH_CODE' => $code]);
+            Log::info('Code restored from request parameter', ['code' => $code]);
+        }
+
         $headHunterService = new HeadHunterService();
         $token = $headHunterService->getToken();
+
+        Log::info('Token obtained', [
+            'token_received' => $token ? 'YES' : 'NO',
+            'session_after_token' => session()->all()
+        ]);
+
         return redirect()->route('home');
     }
 
@@ -409,12 +441,19 @@ class HeadHunterController extends Controller
     }
 
     /**
-     * Получить список сохраненных сопроводительных писем
+     * Получить список сохраненных сопроводительных писем для текущего пользователя
      */
     private function getCoverLetters(): array
     {
         try {
-            $coverLetters = \App\Models\CoverLetter::all();
+            $headHunterService = new HeadHunterService();
+            $userHhId = $headHunterService->getCurrentUserId();
+            
+            if (!$userHhId) {
+                return [];
+            }
+            
+            $coverLetters = \App\Models\CoverLetter::forUser($userHhId)->get();
             return $coverLetters->toArray();
         } catch (\Exception $e) {
             Log::error('Error getting cover letters: ' . $e->getMessage());

@@ -23,6 +23,7 @@ class HeadHunterController extends Controller
 
     public function hhCode(Request $request){
         session(['HH_CODE' => $request->code]);
+        sleep(2);
         return redirect()->route('token');
     }
 

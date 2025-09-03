@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\HeadHunterService;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Log;
 
 class HeadHunterController extends Controller
 {
@@ -21,13 +21,21 @@ class HeadHunterController extends Controller
         return redirect($url);
     }
 
-    public function hhOut(){
-        session()->forget('HH_CODE');
-        session()->forget('HH_TOKEN');
-        return redirect()->route('home');
-    }
-
     public function hhCode(Request $request){
+        // Логируем полученные параметры для диагностики
+        Log::info('HH OAuth callback received', [
+            'code' => $request->code,
+            'state' => $request->state,
+            'all_params' => $request->all(),
+            'query_string' => $request->getQueryString(),
+            'url' => $request->fullUrl()
+        ]);
+
+        if (empty($request->code)) {
+            Log::error('Empty code received from HeadHunter OAuth');
+            return redirect()->route('home')->with('error', 'Ошибка авторизации: не получен код от HeadHunter');
+        }
+
         session(['HH_CODE' => $request->code]);
         return redirect()->route('token');
     }
@@ -166,6 +174,12 @@ class HeadHunterController extends Controller
         return view('pages.negotiations', ['negotiations' => $negotiation]);
     }
 
+    public function hhOut(){
+        session()->forget('HH_CODE');
+        session()->forget('HH_TOKEN');
+        return redirect()->route('home');
+    }
+
     /**
      * Страница автоматического отклика
      */
@@ -276,7 +290,7 @@ class HeadHunterController extends Controller
         }
     }
 
-        /**
+    /**
      * Выполнить автоматический отклик (создать задачу в БД)
      */
     public function executeAutoApply(Request $request)
@@ -321,43 +335,23 @@ class HeadHunterController extends Controller
     }
 
     /**
-     * Выполнить массовый отклик с разными сопроводительными письмами
+     * Получить статус задачи автоотклика
      */
-    private function performMassApply($service, $vacancyIds, $resumeId, $coverLetters, $delaySeconds)
+    public function getTaskStatus($taskId)
     {
-        $results = [];
-        $successful = 0;
-        $failed = 0;
+        $tasks = session('auto_apply_tasks', []);
 
-        foreach ($vacancyIds as $index => $vacancyId) {
-            // Добавляем задержку между запросами (кроме первого)
-            if ($index > 0) {
-                sleep($delaySeconds);
-            }
-
-            // Выбираем сопроводительное письмо
-            $message = null;
-            if (!empty($coverLetters)) {
-                // Если несколько писем, выбираем случайное
-                $message = $coverLetters[array_rand($coverLetters)];
-            }
-
-            $result = $service->applyToVacancy($vacancyId, $resumeId, $message);
-            $results[] = $result;
-
-            if (isset($result['error']) && $result['error']) {
-                $failed++;
-            } else {
-                $successful++;
-            }
+        if (!isset($tasks[$taskId])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Задача не найдена'
+            ]);
         }
 
-        return [
-            'total' => count($vacancyIds),
-            'successful' => $successful,
-            'failed' => $failed,
-            'results' => $results
-        ];
+        return response()->json([
+            'success' => true,
+            'task' => $tasks[$taskId]
+        ]);
     }
 
     /**
@@ -415,22 +409,16 @@ class HeadHunterController extends Controller
     }
 
     /**
-     * Получить статус задачи автоотклика
+     * Получить список сохраненных сопроводительных писем
      */
-    public function getTaskStatus($taskId)
+    private function getCoverLetters(): array
     {
-        $tasks = session('auto_apply_tasks', []);
-
-        if (!isset($tasks[$taskId])) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Задача не найдена'
-            ]);
+        try {
+            $coverLetters = \App\Models\CoverLetter::all();
+            return $coverLetters->toArray();
+        } catch (\Exception $e) {
+            Log::error('Error getting cover letters: ' . $e->getMessage());
+            return [];
         }
-
-        return response()->json([
-            'success' => true,
-            'task' => $tasks[$taskId]
-        ]);
     }
 }

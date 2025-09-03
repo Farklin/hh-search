@@ -28,8 +28,33 @@ class HeadHunterService
 
     public function getUrlCode(): string
     {
+        $clientId = env('HH_CLIENT_ID');
+        $redirectUri = env('HH_REDIRECT_URI');
+
+        // Логируем параметры для диагностики
+        Log::info('Generating HH OAuth URL', [
+            'client_id' => $clientId ? 'SET' : 'NOT SET',
+            'redirect_uri' => $redirectUri,
+            'app_url' => env('APP_URL'),
+            'app_env' => env('APP_ENV')
+        ]);
+
+        if (empty($clientId)) {
+            Log::error('HH_CLIENT_ID is not set in environment');
+            throw new \Exception('HH_CLIENT_ID не настроен в переменных окружения');
+        }
+
+        if (empty($redirectUri)) {
+            Log::error('HH_REDIRECT_URI is not set in environment');
+            throw new \Exception('HH_REDIRECT_URI не настроен в переменных окружения');
+        }
+
         //https://hh.ru/oauth/authorize?response_type=code&client_id={HH_CLIENT_ID}&state={state_value}&redirect_uri={REDIRECT_URI}
-        return 'https://hh.ru/oauth/authorize?response_type=code&client_id=' . env('HH_CLIENT_ID') . '&state=user_id&redirect_uri=' . env('HH_REDIRECT_URI');
+        $url = 'https://hh.ru/oauth/authorize?response_type=code&client_id=' . $clientId . '&state=user_id&redirect_uri=' . urlencode($redirectUri);
+
+        Log::info('Generated OAuth URL: ' . $url);
+
+        return $url;
     }
 
     /**
